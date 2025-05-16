@@ -1,32 +1,45 @@
 #include <stdio.h>
 
-void sumOfSubsets(int set[], int subset[], int n, int subsetSize, int sum, int target, int index) {
-    if (sum == target) {
-        printf("Subset found: ");
-        for (int i = 0; i < subsetSize; i++)
-            printf("%d ", subset[i]);
-        printf("\n");
+int n = 5; // number of elements
+int target = 7; // target sum
+int set[20] = {2, 3, 5, 6, 1}; // static input set
+int x[20]; // inclusion array
+
+void printSubset() {
+    printf("Subset: ");
+    for (int i = 0; i < n; i++) {
+        if (x[i] == 1)
+            printf("%d ", set[i]);
+    }
+    printf("\n");
+}
+
+void sumOfSubsets(int k, int currentSum) {
+    if (currentSum == target) {
+        printSubset();
         return;
     }
 
-    if (sum > target || index == n)
+    if (k == n || currentSum > target)
         return;
 
-    // Include current element
-    subset[subsetSize] = set[index];
-    sumOfSubsets(set, subset, n, subsetSize + 1, sum + set[index], target, index + 1);
+    // Include element
+    x[k] = 1;
+    sumOfSubsets(k + 1, currentSum + set[k]);
 
-    // Exclude current element
-    sumOfSubsets(set, subset, n, subsetSize, sum, target, index + 1);
+    // Exclude element
+    x[k] = 0;
+    sumOfSubsets(k + 1, currentSum);
 }
-    
-int main() {
-    int set[] = {10, 7, 5, 18, 12, 20, 15};
-    int n = sizeof(set) / sizeof(set[0]);
-    int target = 35;
-    int subset[n];  // Temp array to store a subset
 
-    printf("Subsets summing to %d:\n", target);
-    sumOfSubsets(set, subset, n, 0, 0, target, 0);
+int main() {
+    printf("Set: ");
+    for (int i = 0; i < n; i++)
+        printf("%d ", set[i]);
+    printf("\nTarget sum: %d\n", target);
+    printf("Subsets with sum = %d:\n", target);
+
+    sumOfSubsets(0, 0);
+
     return 0;
 }

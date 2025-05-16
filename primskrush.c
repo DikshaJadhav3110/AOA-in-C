@@ -8,7 +8,6 @@
 int minKey(int key[], bool mstSet[])
 {
     int min = INT_MAX, min_index;
-
     for (int v = 0; v < V; v++)
         if (mstSet[v] == false && key[v] < min)
             min = key[v], min_index = v;
@@ -19,7 +18,7 @@ int minKey(int key[], bool mstSet[])
 int printMST(int parent[], int graph[V][V])
 {
     printf("Edge \tWeight\n");
-    int sum=0;
+    int sum = 0;
     for (int i = 1; i < V; i++)
         printf("%d - %d \t%d \n", parent[i], i, graph[parent[i]][i]);
 }
@@ -31,7 +30,9 @@ void primMST(int graph[V][V])
     bool mstSet[V];
 
     for (int i = 0; i < V; i++)
+    {
         key[i] = INT_MAX, mstSet[i] = false;
+    }
 
     key[0] = 0;
     parent[0] = -1;
@@ -48,16 +49,6 @@ void primMST(int graph[V][V])
 
     printMST(parent, graph);
 }
-
-
-
-
-
-
-
-
-
-
 
 int comparator(const void *a, const void *b)
 {
@@ -132,13 +123,6 @@ int kruskalAlgo(int n, int edge[n][3])
     }
     return minCost;
 }
-
-
-
-
-
-
-
 
 int main()
 {

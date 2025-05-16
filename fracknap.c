@@ -3,7 +3,8 @@
 
 struct Item
 {
-    int weight, value;
+    int weight;
+    int value;
     int index;
 };
 
@@ -49,5 +50,6 @@ int main()
 
     double maxVal = fractionalKnapsack(capacity, items, n);
     printf("Greedy Knapsack: Max value = %.2f\n", maxVal);
+
     return 0;
 }

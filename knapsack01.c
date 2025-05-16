@@ -3,7 +3,6 @@
 
 void knapsack(int W, int wt[], int val[], int n) {
     int dp[n + 1][W + 1];
-
     // Build table
     for (int i = 0; i <= n; i++) {
         for (int w = 0; w <= W; w++) {
@@ -29,6 +28,8 @@ void knapsack(int W, int wt[], int val[], int n) {
         }
     }
 }
+
+
 int main() {
     int val[] = {60, 100, 120};
     int wt[] = {10, 20, 30};

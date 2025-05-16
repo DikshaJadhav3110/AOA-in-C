@@ -1,72 +1,87 @@
 #include <stdio.h>
-#include <stdbool.h>
 
-#define V 5
+#define MAX 20
 
-int path[V];  // Stores the current Hamiltonian path
+int G[MAX][MAX]; // Global graph
+int x[MAX];      // Stores path
+int n = 5;       // Number of vertices
 
-// Check if vertex v can be added at index 'pos' in the path
-bool isSafe(int v, int graph[V][V], int pos) {
-    // Check if this vertex is adjacent to the previous vertex in the path
-    if (graph[path[pos - 1]][v] == 0)
-        return false;
-
-    // Check if the vertex has already been included
-    for (int i = 0; i < pos; i++)
-        if (path[i] == v)
-            return false;
-
-    return true;
+void printSolution()
+{
+    printf("Hamiltonian Cycle: ");
+    for (int i = 1; i <= n; i++)
+    {
+        printf("%d ", x[i]);
+    }
+    printf("%d\n", x[1]); // Complete the cycle
 }
 
-// Recursive utility function to solve the Hamiltonian Cycle problem
-bool hamCycleUtil(int graph[V][V], int pos) {
-    if (pos == V) {
-        // If there's an edge from the last to the first vertex
-        return graph[path[pos - 1]][path[0]] == 1;
-    }
+void NextVertex(int k)
+{
+    while (1)
+    {
+        x[k] = (x[k] + 1) % (n + 1);
+        if (x[k] == 0)
+            return;
 
-    for (int v = 1; v < V; v++) {
-        if (isSafe(v, graph, pos)) {
-            path[pos] = v;
-
-            if (hamCycleUtil(graph, pos + 1))
-                return true;
-
-            path[pos] = -1;  // Backtrack
+        if (G[x[k - 1]][x[k]] != 0)
+        {
+            int j;
+            for (j = 1; j < k; j++)
+            {
+                if (x[j] == x[k])
+                    break;
+            }
+            if (j == k)
+            {
+                if (k < n || (k == n && G[x[n]][x[1]] != 0))
+                    return;
+            }
         }
     }
-    return false;
 }
 
-bool hamCycle(int graph[V][V]) {
-    for (int i = 0; i < V; i++)
-        path[i] = -1;
+void Hamiltonian(int k)
+{
+    while (1)
+    {
+        NextVertex(k);
+        if (x[k] == 0)
+            return;
 
-    path[0] = 0;  // Start at vertex 0
-
-    if (hamCycleUtil(graph, 1) == false) {
-        printf("No Hamiltonian Cycle exists\n");
-        return false;
+        if (k == n)
+            printSolution();
+        else
+            Hamiltonian(k + 1);
     }
-
-    printf("Hamiltonian Cycle found:\n");
-    for (int i = 0; i < V; i++)
-        printf("%d ", path[i]);
-    printf("%d\n", path[0]);  // To show cycle
-    return true;
 }
 
+int main()
+{
+    int i;
 
-int main() {
-    int graph1[V][V] = {
-        {0, 1, 0, 1, 0},
-        {1, 0, 1, 1, 1},
-        {0, 1, 0, 0, 1},
-        {1, 1, 0, 0, 1},
-        {0, 1, 1, 1, 0}
-    };
+    // Static input (global G)
+    int tempG[6][6] = {
+    {0, 0, 0, 0, 0, 0},
+    {0, 0, 1, 1, 0, 0},
+    {0, 1, 0, 1, 1, 0}, 
+    {0, 1, 1, 0, 1, 1}, 
+    {0, 0, 1, 1, 0, 1}, 
+    {0, 0, 0, 1, 1, 0} 
+};
 
-    hamCycle(graph1);
+    // Copy to global G
+    for (i = 1; i <= n; i++)
+        for (int j = 1; j <= n; j++)
+            G[i][j] = tempG[i][j];
+
+    // Initialize path
+    for (i = 1; i <= n; i++)
+        x[i] = 0;
+    x[1] = 1;
+
+    printf("Hamiltonian cycles found:\n");
+    Hamiltonian(2);
+
     return 0;
 }

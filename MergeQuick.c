@@ -71,15 +71,12 @@ void quickSort(int nums[], int low, int hi) {
         while (nums[e] > pivot) {
             e--;
         }
-
-        if (s <= e) {
             // Swap nums[s] and nums[e]
             int temp = nums[s];
             nums[s] = nums[e];
             nums[e] = temp;
             s++;
             e--;
-        }
     }
 
     // Recursively sort two halves

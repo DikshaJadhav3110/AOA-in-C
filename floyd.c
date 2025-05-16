@@ -2,7 +2,8 @@
 #define V 4
 #define INF 99999
 
-void floydWarshall(int graph[V][V]) {
+void floydWarshall(int graph[V][V])
+{
     int dist[V][V];
 
     // Initialize distance matrix
@@ -19,8 +20,10 @@ void floydWarshall(int graph[V][V]) {
 
     // Print results
     printf("Floyd-Warshall: Shortest distances:\n");
-    for (int i = 0; i < V; i++) {
-        for (int j = 0; j < V; j++) {
+    for (int i = 0; i < V; i++)
+    {
+        for (int j = 0; j < V; j++)
+        {
             if (dist[i][j] == INF)
                 printf("INF ");
             else
@@ -29,13 +32,13 @@ void floydWarshall(int graph[V][V]) {
         printf("\n");
     }
 }
-int main() {
+int main()
+{
     int graph[V][V] = {
-        {0,   3, INF, 5},
-        {2,   0, INF, 4},
-        {INF, 1,   0, INF},
-        {INF, INF, 2, 0}
-    };
+        {0, 3, INF, 5},
+        {2, 0, INF, 4},
+        {INF, 1, 0, INF},
+        {INF, INF, 2, 0}};
     floydWarshall(graph);
     return 0;
 }

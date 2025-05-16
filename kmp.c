@@ -36,7 +36,7 @@ void KMPSearch(char *pat, char *txt) {
         if (j == M) {
             printf("KMP Match found at index %d\n", i - j);
             j = lps[j - 1];
-        } else if (i < N && pat[j] != txt[i]) {
+        } else if (pat[j] != txt[i]) {
             if (j != 0)
                 j = lps[j - 1];
             else
